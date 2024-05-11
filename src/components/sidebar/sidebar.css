@@ -1,0 +1,16 @@
+.sidebar{
+    background-color: var(--color-blue);
+    position:fixed;
+    height: 100%;
+    width: 50px;
+    text-align: center;
+}
+
+.sidebar a{
+    padding-top: 20px;
+    display: block  ;
+}
+
+.sidebar a:hover{
+    opacity: 0.5;
+}
