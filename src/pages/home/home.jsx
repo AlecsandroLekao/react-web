@@ -22,7 +22,7 @@ const Home = () => {
         })
     }
 
-    const ListarDespesa = () => {
+    const ListarDespesa = (filtro) => {
 
         ///pega lista de dados 
         let dados = [
@@ -36,25 +36,34 @@ const Home = () => {
             { id: 8, icon: "https://jornadajs-devpoint.s3.amazonaws.com/icon-viagem.png", categoria: "Viagem", descricao: "Hotel", valor: 330 }
         ];
 
-        SetTotalGasto(dados.reduce((prev, actual) => {
-            return prev + actual.valor;
-        }, 0))
+        if (filtro) {
+            SetDespesas(dados.filter(e => e.id == filtro));
+            SetTotalGasto(dados.filter(e => e.id == filtro)
+                .reduce((prev, actual) => {
+                return prev + actual.valor;
+            }, 0))
 
-        SetDespesas(dados);
+        } else {
+            SetTotalGasto(dados.reduce((prev, actual) => {
+                return prev + actual.valor;
+            }, 0))
+            SetDespesas(dados);
+        }
     }
+
     const OpenDespesa = (id) => {
         navigate('/despesa/' + id);
     }
 
     const DeleteDespesa = (id) => {
-       // navigate('/despesa/' + id);
-       alert(id);
+        // navigate('/despesa/' + id);
+        alert(id);
     }
 
     return (
         <>
             <Sidebar />
-            <Navbar />
+            <Navbar ListarDespesa={ListarDespesa} totalGasto={totalGasto} />
             <div className="container-home">
                 <div className="title-home">
                     <h1>Despesas</h1>
@@ -82,7 +91,7 @@ const Home = () => {
                                             <button onClick={() => OpenDespesa(value.id)} className="btn btn-blue espaco-direita">
                                                 <img className="icon-sm" src={icons.edit} alt="" srcset="" />
                                             </button>
-                                            <button  onClick={() => DeleteDespesa(value.id)} className="btn btn-red">
+                                            <button onClick={() => DeleteDespesa(value.id)} className="btn btn-red">
                                                 <img className="icon-sm" src={icons.remove} alt="" srcset="" />
                                             </button>
                                         </td>
